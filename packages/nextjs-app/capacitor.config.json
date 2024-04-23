@@ -1,0 +1,8 @@
+{
+  "appId": "com.lockvoid.nextjs_capacitor",
+  "appName": "nextjs-capacitor",
+  "webDir": "web",
+  "server": {
+    "url": "http://0.0.0.0:3000"
+  }
+}

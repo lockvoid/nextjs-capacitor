@@ -1,0 +1,20 @@
+{
+  "name": "ferment",
+  "version": "1.0.0",
+  "description": "",
+  "author": "LockVoid",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=ferment-api\" \"npm run dev --workspace=ferment-app\"  \"npm run dev --workspace=ferment-landing\" --names \"api,app,landing\""
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "concurrently": "^7.4.0"
+  }
+}
+
