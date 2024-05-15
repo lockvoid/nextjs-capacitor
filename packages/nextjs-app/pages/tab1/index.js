@@ -21,9 +21,9 @@ const Page1 = () => {
 
 Page1.Layout = ({ page }) => {
   return (
-    <TabLayout>
+    <div className="flex flex-col">
       {page}
-    </TabLayout>
+    </div>
   );
 };
 

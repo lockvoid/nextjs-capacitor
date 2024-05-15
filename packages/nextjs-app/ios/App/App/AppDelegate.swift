@@ -13,39 +13,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
-       
-        // Create the tab bar controller
-        let tabBarController = UITabBarController()
-       
-        // Setup Capacitor's Bridge ViewController as one of the tabs
-        
-        // Tab 1
-        
-        let customUR1L = URL(string: "https://your-custom-url.com")!
         
         let capacitorViewController1 = CAPBridgeViewController()
-        capacitorViewController1.tabBarItem = UITabBarItem(title: "Web1", image: UIImage(systemName: "globe"), tag: 0)
         capacitorViewController1.title = "Home2"
-        capacitorViewController1.bridge?.setServerBasePath("http://0.0.0.0:3000/tab1")
         
-        let navigationController1 = UINavigationController(rootViewController: capacitorViewController1)
-        
-        let rightButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(rightButtonAction))
-        capacitorViewController1.navigationItem.rightBarButtonItem = rightButton
-        
-        // Tab 2
-        
-        let capacitorViewController2 = CAPBridgeViewController()
-        capacitorViewController2.tabBarItem = UITabBarItem(title: "Web2", image: UIImage(systemName: "globe"), tag: 0)
-        capacitorViewController2.setServerBasePath(path: "http://0.0.0.0:3000/tab2")
-        
-        let navigationController2 = UINavigationController(rootViewController: capacitorViewController2)
-        
-       // Add the view controllers to the tab bar controller
-        tabBarController.viewControllers = [navigationController1, navigationController2]
+        let navigationController = UINavigationController(rootViewController: capacitorViewController1)
         
        // Set the tab bar controller as the window's root view controller
-        window.rootViewController = tabBarController
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
 
         return true

@@ -27,21 +27,22 @@ const useTabSelection = () => {
 const App = ({ Component, pageProps }) => {
   const Layout = Component.Layout || (({ page }) => page);
 
-  useTabSelection();
+  // useTabSelection();
 
   console.log("HELLO")
-  console.log(NativeTabs)
 
   useEffect(() => {
-    return;
-    NativeTabs.createTabs().catch(error => console.error('Error creating tabs:', error));
+    // showRootScreen();
+    
+    // return;
+    // NativeTabs.createTabs().catch(error => console.error('Error creating tabs:', error));
 
 
-    if (Capacitor.isPluginAvailable('NativeTabs')) {
-      NativeTabs.createTabs().catch(error => console.error('Error creating tabs:', error));
-    } else {
-      console.error('NativeTabs is not available');
-    }
+    // if (Capacitor.isPluginAvailable('NativeTabs')) {
+    //   NativeTabs.createTabs().catch(error => console.error('Error creating tabs:', error));
+    // } else {
+    //   console.error('NativeTabs is not available');
+    // }
   }, []);
 
   return (

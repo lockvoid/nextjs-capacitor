@@ -1,9 +1,10 @@
 import TabLayout from "#components/TabLayout";
+import AuthProvider from '../pages/auth_provider';
 
 const Page = () => {
   return (
     <div className="flex flex-col items-center justify-center py-2">
-      Home 
+      Home 11
     </div>
   );
 }
@@ -11,7 +12,9 @@ const Page = () => {
 Page.Layout = ({ page }) => {
   return (
     <TabLayout>
-      {page}
+      <AuthProvider>
+        {page}
+      </AuthProvider>
     </TabLayout>
   );
 };
