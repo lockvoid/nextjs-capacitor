@@ -132,9 +132,15 @@ public class NativeTabsPlugin: CAPPlugin {
         if let tabs = call.getArray("tabs", [String: Any].self) {
             viewController = self.createTabBar(tabs: tabs)
         } else if let urlString = call.getString("url"), let url = URL(string: urlString) {
-            let vc = CustomCAPBridgeViewController()
+            let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
+            bridgeViewController.showScreenshot()
+            let vc = CustomCAPBridgeViewController(webview: webView, capacitorBridge: bridge)
             vc.url = url
             viewController = vc
+            vc.viewDidDisappearHandler = {[weak self] in
+                bridgeViewController.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+                bridgeViewController.loadUrlIfExist()
+            }
         } else if let nativeUrl = call.getString("nativeUrl") {
             viewController = self.createNativeViewController(nativeUrl: nativeUrl)
         }

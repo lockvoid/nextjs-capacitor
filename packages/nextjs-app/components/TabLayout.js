@@ -6,22 +6,22 @@ const TabLayout = ({ children }) => {
     if (window.Capacitor.isNativePlatform()) {
       event.preventDefault();
 
-      const tabs = [
-        {
-          url: 'http://0.0.0.0:3000/tab2',
-          title: 'tab 1',
-        },
-        {
-          url: 'http://0.0.0.0:3000/tab2',
-          title: 'tab 2',
-        },
-        {
-          url: 'http://0.0.0.0:3000/tab2',
-          title: 'tab 3',
-        }
-      ]
+      // const tabs = [
+      //   {
+      //     url: 'http://0.0.0.0:3000/tab2',
+      //     title: 'tab 1',
+      //   },
+      //   {
+      //     url: 'http://0.0.0.0:3000/tab2',
+      //     title: 'tab 2',
+      //   },
+      //   {
+      //     url: 'http://0.0.0.0:3000/tab2',
+      //     title: 'tab 3',
+      //   }
+      // ]
 
-      window.Capacitor.Plugins.NativeTabs.presentViewController({ tabs });
+      window.Capacitor.Plugins.NativeTabs.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
     }
   }
 

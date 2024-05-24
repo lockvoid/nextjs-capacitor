@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import LockvoidCapacitorNativeTabs
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
         
-        let capacitorViewController1 = CAPBridgeViewController()
+        let capacitorViewController1 = CustomCAPBridgeViewController()
+        capacitorViewController1.url = URL(string: "http://0.0.0.0:3000")!
         capacitorViewController1.title = "Home2"
         
         let navigationController = UINavigationController(rootViewController: capacitorViewController1)
