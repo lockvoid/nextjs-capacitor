@@ -11,7 +11,7 @@
     "ios:sync": "cap sync ios"
   },
   "dependencies": {
-    "@capacitor/core": "^5.7.4",
+    "@capacitor/core": "^5.7.5",
     "@capacitor/ios": "^5.7.4",
     "@lockvoid/capacitor-native-navigation": "^0.0.1",
     "clsx": "^2.1.0",
