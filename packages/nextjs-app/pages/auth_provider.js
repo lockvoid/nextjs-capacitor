@@ -1,8 +1,25 @@
 import React, { useEffect } from 'react';
 import { Capacitor, Plugins } from '@capacitor/core';
 import { NativeTabs } from "@lockvoid/capacitor-native-tabs";
+import { useRouter } from 'next/router';
 
 const AuthProvider = ({ children }) => {
+  const router = useRouter(); 
+
+  useEffect(() => {
+    if (window.Capacitor.isNativePlatform()) {
+      const handleBack = () => {
+        console.log('back bla bla 123')
+        router.back();
+      }
+
+      window.Capacitor.Plugins.NativeTabs.addListener('NAVIGATE_BACK', handleBack);
+
+      return () => {
+        window.Capacitor.Plugins.NativeTabs.removeListener('NAVIGATE_BACK', handleBack);
+      }
+    }
+  }, []);
 
   const showRootScreen = async () => {
     const tabs = [
@@ -29,9 +46,9 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     // showRootScreen();
 
-    console.log('bla bla bla')
+    console.log('AuthProvider mount')
     return () => {
-      console.log('Component will unmoumt');
+      console.log('AuthProvider will unmoumt');
       // Здесь нужно добавить ваш код для очистки.
     };
   }, []);

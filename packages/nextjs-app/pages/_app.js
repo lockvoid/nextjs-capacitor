@@ -29,8 +29,6 @@ const App = ({ Component, pageProps }) => {
 
   // useTabSelection();
 
-  console.log("HELLO")
-
   useEffect(() => {
     // showRootScreen();
     

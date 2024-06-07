@@ -1,104 +1,15 @@
 import Foundation
 import Capacitor
 
-/**
- * Please read the Capacitor iOS Plugin Development Guide
- * here: https://capacitorjs.com/docs/plugins/ios
- */
-//@objc(NativeTabsPlugin)
-//public class NativeTabsPlugin: CAPPlugin {
-//    @objc func push(_ call: CAPPluginCall) {
-//        guard let urlString = call.getString("url"), let url = URL(string: urlString) else {
-//            call.reject("Must provide a URL")
-//            return
-//        }
-//        
-//        
-//        print(urlString)
-//        
-//        DispatchQueue.main.async {
-//            // Create a new CAPBridgeViewController instance
-//            let newWebView = CAPBridgeViewController()
-//
-//            newWebView.setServerBasePath(path: url.path)
-//
-//            // Assuming you have a UINavigationController
-//            if let navigationController = self.bridge?.viewController?.navigationController {
-//                navigationController.pushViewController(newWebView, animated: true)
-//
-//                call.resolve()
-//            } else {
-//                call.reject("NavigationController not found")
-//            }
-//        }
-//    }
-//
-//    @objc func createTabs(_ call: CAPPluginCall) {
-//        guard let urlString = call.getString("url"), let url = URL(string: urlString) else {
-//            call.reject("Must provide a URL")
-//            return
-//        }
-//        
-//        DispatchQueue.main.async {
-//            // Create a new CAPBridgeViewController instance
-//            let newWebView = CAPBridgeViewController()
-//
-//            newWebView.setServerBasePath(path: url.path)
-//
-//            // Assuming you have a UINavigationController
-//            if let navigationController = self.bridge?.viewController?.navigationController {
-//                navigationController.pushViewController(newWebView, animated: true)
-//
-//                call.resolve()
-//            } else {
-//                call.reject("NavigationController not found")
-//            }
-//        }
-//        
-//        return;
-//        
-//        DispatchQueue.main.async {
-//            guard let bridgeViewController = self.bridge?.viewController as? CAPBridgeViewController else {
-//                call.reject("Capacitor Bridge View Controller not found.")
-//                return
-//            }
-//
-//            // Example: Creating a simple tab bar controller with two tabs
-//            let tabBarController = UITabBarController()
-//            
-//            // Create UIViewController for each tab, setup is simplified
-//            let firstTab = UIViewController()
-//            firstTab.view.backgroundColor = .red
-//            firstTab.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
-//            
-//            let secondTab = UIViewController()
-//            secondTab.view.backgroundColor = .blue
-//            secondTab.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
-//            
-//            tabBarController.viewControllers = [firstTab, secondTab]
-//            
-//            // Add action to switch tabs
-//            tabBarController.selectedIndex = 0 // Default to first tab
-//            
-//            // Present the tab bar controller
-//            bridgeViewController.present(tabBarController, animated: true, completion: nil)
-//
-//            // Example of how you might handle a tab switch, this needs to be customized
-//            // to trigger when actual tab switches occur in your tab bar controller
-//            let selectedIndex = tabBarController.selectedIndex
-//            self.bridge?.triggerJSEvent(eventName: "onTabSelected", target: "window", data: "{\"tabIndex\": \(selectedIndex)}")
-//        }
-//
-//        call.resolve()
-//    }
-//}
-
-
 import UIKit
 import Capacitor
 
 @objc(NativeTabsPlugin)
 public class NativeTabsPlugin: CAPPlugin {
+    public override init() {
+        super.init()
+    }
+    
     var presentedViewControllers: [String: UIViewController] = [:] {
         didSet {
             print("self \(self)")
@@ -126,23 +37,41 @@ public class NativeTabsPlugin: CAPPlugin {
         }
     }
     
+    @objc func prepareViewController(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
+            bridgeViewController.showScreenshot()
+            call.resolve()
+        }
+    }
+    
     private func createViewController(_ call: CAPPluginCall) -> UIViewController? {
         print("url11: \(call.getString("url") ?? "")")
         var viewController: UIViewController?
         if let tabs = call.getArray("tabs", [String: Any].self) {
             viewController = self.createTabBar(tabs: tabs)
         } else if let urlString = call.getString("url"), let url = URL(string: urlString) {
-            let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
-            bridgeViewController.showScreenshot()
-            let vc = CustomCAPBridgeViewController(webview: webView, capacitorBridge: bridge)
-            vc.url = url
-            viewController = vc
-            vc.viewDidDisappearHandler = {[weak self] in
-                bridgeViewController.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
-                bridgeViewController.loadUrlIfExist()
+            if url.scheme == "native" {
+                if let host = url.host {
+                    let pathComponents = [host] + url.pathComponents.dropFirst()
+                    viewController = self.createNativeViewController(path: pathComponents.joined(separator: "/"))
+                }
+            } else {
+                let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
+                let vc = CustomCAPBridgeViewController(webview: webView, capacitorBridge: bridge)
+
+                viewController = vc
+                vc.viewDidAppearHandler = {[weak self, weak vc] in
+                    vc?.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+                }
+                vc.viewWillDisappearHandler = {[weak vc] in
+                    vc?.showScreenshot()
+                }
+                vc.viewDidDisappearHandler = {[weak self] in
+                    self?.notifyListeners("NAVIGATE_BACK", data: nil)
+                    bridgeViewController.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+                }
             }
-        } else if let nativeUrl = call.getString("nativeUrl") {
-            viewController = self.createNativeViewController(nativeUrl: nativeUrl)
         }
         return viewController
     }
@@ -171,14 +100,23 @@ public class NativeTabsPlugin: CAPPlugin {
         return navVc
     }
     
-    private func createNativeViewController(nativeUrl: String) -> UIViewController? {
-        switch nativeUrl {
+    private func createNativeViewController(path: String) -> UIViewController? {
+        print("path: \(path)")
+        switch path {
         case "redCustomVc":
             let vc = UIViewController()
             vc.view.backgroundColor = .red
+            
+            let button = UIButton(frame: CGRect(origin: CGPoint(x: 100, y: 100), size: CGSize(width: 100, height: 20)))
+            button.backgroundColor = .black
+            button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+            vc.view.addSubview(button)
             return vc
         default:
             return nil
         }
+    }
+    
+    @objc private func buttonAction() {
     }
 }

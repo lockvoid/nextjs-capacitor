@@ -37,6 +37,11 @@ public class CustomCAPBridgeViewController: CAPBridgeViewController {
         super.viewWillAppear(animated)
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        print("viewDidAppear")
+        super.viewDidAppear(animated)
+    }
+    
     public func loadUrlIfExist() {
         guard let url = url else { return }
         let request = URLRequest(url: url)
@@ -44,53 +49,3 @@ public class CustomCAPBridgeViewController: CAPBridgeViewController {
     }
 
 }
-
-
-//class CustomCAPBridgeViewController2: CAPBridgeViewController {
-//    
-//    var url: URL? {
-//        didSet {
-//            loadUrlIfExist()
-//        }
-//    }
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        if let webView = webView {
-//            view = UIView()
-//            view.backgroundColor = .white
-//            
-//            view.addSubview(webView)
-//            
-//            webView.translatesAutoresizingMaskIntoConstraints = false
-//            NSLayoutConstraint.activate([
-//                webView.topAnchor.constraint(equalTo: view.topAnchor),
-//                webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//                webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//                webView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-//            ])
-//        }
-//        
-//        loadUrlIfExist()
-//    }
-//    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//    }
-//    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        
-//        self.webView?.configuration.userContentController.removeAllUserScripts()
-//        self.webView?.stopLoading()
-//        self.webView?.navigationDelegate = nil
-//        self.webView?.uiDelegate = nil
-//    }
-//    
-//    private func loadUrlIfExist() {
-//        guard let url = url else { return }
-//        let request = URLRequest(url: url)
-//        self.webView?.load(request)
-//    }
-//
-//}

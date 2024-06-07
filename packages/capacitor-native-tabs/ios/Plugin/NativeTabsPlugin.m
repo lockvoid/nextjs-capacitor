@@ -6,4 +6,5 @@
 CAP_PLUGIN(NativeTabsPlugin, "NativeTabs",
            CAP_PLUGIN_METHOD(pushViewController, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(presentViewController, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(prepareViewController, CAPPluginReturnPromise);
 )

@@ -1,8 +1,11 @@
 import Link from '#components/Link';
 import ActiveLink from './ActiveLink';
+import { useRouter } from 'next/router';
 
 const TabLayout = ({ children }) => { 
-  const handleTab1 = (event) => {
+
+  const router = useRouter(); 
+  const handleTab1 = async (event) => {
     if (window.Capacitor.isNativePlatform()) {
       event.preventDefault();
 
@@ -20,8 +23,10 @@ const TabLayout = ({ children }) => {
       //     title: 'tab 3',
       //   }
       // ]
-
-      window.Capacitor.Plugins.NativeTabs.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
+      
+      await window.Capacitor.Plugins.NativeTabs.prepareViewController({ });
+      router.push('/tab2');
+      await window.Capacitor.Plugins.NativeTabs.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
     }
   }
 
@@ -48,11 +53,13 @@ const TabLayout = ({ children }) => {
     }
   }
 
-  const handleTab3 = (event) => {
+  const handleTab3 = async (event) => {
     if (window.Capacitor.isNativePlatform()) {
       event.preventDefault();
 
-      window.Capacitor.Plugins.NativeTabs.pushViewController({ url: 'http://0.0.0.0:3000/tab2' });
+      await window.Capacitor.Plugins.NativeTabs.prepareViewController({ });
+      router.push('/tab2');
+      await window.Capacitor.Plugins.NativeTabs.pushViewController({ url: 'http://0.0.0.0:3000/tab2' });
     }
   }
 
@@ -60,7 +67,7 @@ const TabLayout = ({ children }) => {
     if (window.Capacitor.isNativePlatform()) {
       event.preventDefault();
 
-      window.Capacitor.Plugins.NativeTabs.pushViewController({ nativeUrl: 'redCustomVc' });
+      window.Capacitor.Plugins.NativeTabs.pushViewController({ url: 'native://redCustomVc' });
     }
   }
 
