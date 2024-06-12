@@ -19,9 +19,10 @@ public class NativeTabsPlugin: CAPPlugin {
     @objc func pushViewController(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
             if let vc = self.createViewController(call) {
-                self.bridge?.viewController?.navigationController?.pushViewController(vc, animated: true)
+                self.bridge?.viewController?.navigationController?.pushViewController(vc, animated: true, completion: {
+                    call.resolve()
+                })
             }
-            call.resolve()
         }
     }
     
@@ -42,6 +43,30 @@ public class NativeTabsPlugin: CAPPlugin {
             let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
             bridgeViewController.showScreenshot()
             call.resolve()
+        }
+    }
+    
+    @objc func dismissViewController(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
+            bridgeViewController.showScreenshot()
+            bridgeViewController.dismiss(animated: true) {[weak self, weak bridgeViewController] in
+                let lastBridgeViewController = bridgeViewController?.findLastPresentedBridgeViewController()
+                lastBridgeViewController?.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+                call.resolve()
+            }
+        }
+    }
+    
+    @objc func popViewController(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
+            bridgeViewController.showScreenshot()
+            bridgeViewController.navigationController?.popViewController(animated: true, completion: {[weak self, weak bridgeViewController] in
+                let lastBridgeViewController = bridgeViewController?.navigationController?.findLastBridgeViewController()
+                lastBridgeViewController?.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+                call.resolve()
+            })
         }
     }
     
@@ -118,5 +143,43 @@ public class NativeTabsPlugin: CAPPlugin {
     }
     
     @objc private func buttonAction() {
+    }
+}
+
+extension UINavigationController {
+    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: @escaping () -> Void) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        self.pushViewController(viewController, animated: animated)
+        CATransaction.commit()
+    }
+    
+    @discardableResult
+    func popViewController(animated: Bool, completion: @escaping () -> Void) -> UIViewController? {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        let poppedViewController = self.popViewController(animated: animated)
+        CATransaction.commit()
+        return poppedViewController
+    }
+    
+    func findLastBridgeViewController() -> CustomCAPBridgeViewController? {
+        return viewControllers.reversed().first { $0 is CustomCAPBridgeViewController } as? CustomCAPBridgeViewController
+    }
+}
+
+extension UIViewController {
+    func findLastPresentedBridgeViewController() -> CustomCAPBridgeViewController? {
+        var currentViewController = self.presentedViewController
+        var lastFoundViewController: CustomCAPBridgeViewController?
+
+        while let viewController = currentViewController {
+            if let viewControllerOfType = viewController as? CustomCAPBridgeViewController {
+                lastFoundViewController = viewControllerOfType
+            }
+            currentViewController = viewController.presentedViewController
+        }
+
+        return lastFoundViewController
     }
 }

@@ -1,5 +1,6 @@
 import TabLayout from "#components/TabLayout";
 import ActiveLink from "#components/ActiveLink";
+import { useRouter } from 'next/router';
 
 const Page1 = () => {
   // const handleTab1 = async (event) => {
@@ -26,6 +27,16 @@ const Page1 = () => {
   //     await window.Capacitor.Plugins.NativeTabs.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
   //   }
   // }
+  const router = useRouter(); 
+
+  const handleBack = async (event) => {
+    if (window.Capacitor.isNativePlatform()) {
+      event.preventDefault();
+      await window.Capacitor.Plugins.NativeTabs.prepareViewController({ });
+      router.back();
+      await window.Capacitor.Plugins.NativeTabs.dismissViewController({});
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-center py-2">
@@ -42,7 +53,7 @@ const Page1 = () => {
       </div>
 
       <div className="flex flex-row space-x-6">
-        <ActiveLink href="/tab1" className="bg-gray-300 rounded-lg p-2" activeClassName="bg-purple-600 text-white">
+        <ActiveLink href="/tab1" className="bg-gray-300 rounded-lg p-2" activeClassName="bg-purple-600 text-white" onClick={handleBack}>
           Tab 1
         </ActiveLink>
       </div>
