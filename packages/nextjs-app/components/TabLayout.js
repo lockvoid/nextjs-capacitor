@@ -24,9 +24,9 @@ const TabLayout = ({ children }) => {
       //   }
       // ]
       
-      await window.Capacitor.Plugins.NativeTabs.prepareViewController({ });
+      await window.Capacitor.Plugins.NativeNavigation.prepareViewController({ });
       router.push('/tab2');
-      await window.Capacitor.Plugins.NativeTabs.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
+      await window.Capacitor.Plugins.NativeNavigation.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
     }
   }
 
@@ -49,7 +49,7 @@ const TabLayout = ({ children }) => {
         }
       ]
 
-      window.Capacitor.Plugins.NativeTabs.pushViewController({ tabs });
+      window.Capacitor.Plugins.NativeNavigation.pushViewController({ tabs });
     }
   }
 
@@ -57,9 +57,9 @@ const TabLayout = ({ children }) => {
     if (window.Capacitor.isNativePlatform()) {
       event.preventDefault();
 
-      await window.Capacitor.Plugins.NativeTabs.prepareViewController({ });
+      await window.Capacitor.Plugins.NativeNavigation.prepareViewController({ });
       router.push('/tab2');
-      await window.Capacitor.Plugins.NativeTabs.pushViewController({ url: 'http://0.0.0.0:3000/tab2' });
+      await window.Capacitor.Plugins.NativeNavigation.pushViewController({ url: 'http://0.0.0.0:3000/tab2' });
     }
   }
 
@@ -67,7 +67,7 @@ const TabLayout = ({ children }) => {
     if (window.Capacitor.isNativePlatform()) {
       event.preventDefault();
 
-      window.Capacitor.Plugins.NativeTabs.pushViewController({ url: 'native://redCustomVc' });
+      window.Capacitor.Plugins.NativeNavigation.pushViewController({ url: 'native://redCustomVc' });
     }
   }
 

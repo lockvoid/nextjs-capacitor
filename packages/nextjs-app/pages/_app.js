@@ -1,9 +1,9 @@
 import "../styles/globals.css";
 import React, { useEffect } from 'react';
 import { Capacitor, Plugins } from '@capacitor/core';
-import { NativeTabs } from "@lockvoid/capacitor-native-tabs";
+import { NativeNavigation } from "@lockvoid/capacitor-native-navigation";
 
-//const { NativeTabs } = Plugins;
+//const { NativeNavigation } = Plugins;
 
 //console.log(Plugins)
 
@@ -33,13 +33,13 @@ const App = ({ Component, pageProps }) => {
     // showRootScreen();
     
     // return;
-    // NativeTabs.createTabs().catch(error => console.error('Error creating tabs:', error));
+    // NativeNavigation.createTabs().catch(error => console.error('Error creating tabs:', error));
 
 
-    // if (Capacitor.isPluginAvailable('NativeTabs')) {
-    //   NativeTabs.createTabs().catch(error => console.error('Error creating tabs:', error));
+    // if (Capacitor.isPluginAvailable('NativeNavigation')) {
+    //   NativeNavigation.createTabs().catch(error => console.error('Error creating tabs:', error));
     // } else {
-    //   console.error('NativeTabs is not available');
+    //   console.error('NativeNavigation is not available');
     // }
   }, []);
 

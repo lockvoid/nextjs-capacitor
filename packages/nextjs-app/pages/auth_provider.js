@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Capacitor, Plugins } from '@capacitor/core';
-import { NativeTabs } from "@lockvoid/capacitor-native-tabs";
+import { NativeNavigation } from "@lockvoid/capacitor-native-navigation";
 import { useRouter } from 'next/router';
 
 const AuthProvider = ({ children }) => {
@@ -13,10 +13,10 @@ const AuthProvider = ({ children }) => {
         router.back();
       }
 
-      window.Capacitor.Plugins.NativeTabs.addListener('NAVIGATE_BACK', handleBack);
+      window.Capacitor.Plugins.NativeNavigation.addListener('NAVIGATE_BACK', handleBack);
 
       return () => {
-        window.Capacitor.Plugins.NativeTabs.removeListener('NAVIGATE_BACK', handleBack);
+        window.Capacitor.Plugins.NativeNavigation.removeListener('NAVIGATE_BACK', handleBack);
       }
     }
   }, []);
@@ -37,10 +37,10 @@ const AuthProvider = ({ children }) => {
       }
     ]
 
-    const screenId = await window.Capacitor.Plugins.NativeTabs.createTabBar({ tabs });
-    // const screenId = await window.Capacitor.Plugins.NativeTabs.createScreen({ url: 'fsdfsaf' });
-    // window.Capacitor.Plugins.NativeTabs.pushViewController(screenId)
-    window.Capacitor.Plugins.NativeTabs.presentViewController(screenId)
+    const screenId = await window.Capacitor.Plugins.NativeNavigation.createTabBar({ tabs });
+    // const screenId = await window.Capacitor.Plugins.NativeNavigation.createScreen({ url: 'fsdfsaf' });
+    // window.Capacitor.Plugins.NativeNavigation.pushViewController(screenId)
+    window.Capacitor.Plugins.NativeNavigation.presentViewController(screenId)
   }
 
   useEffect(() => {

@@ -11,7 +11,7 @@ install! 'cocoapods', :disable_input_output_paths => true
 def capacitor_pods
   pod 'Capacitor', :path => '../../../../node_modules/capacitor_ferrumblood_ios'
   pod 'CapacitorCordova', :path => '../../../../node_modules/capacitor_ferrumblood_ios'
-  pod 'LockvoidCapacitorNativeTabs', :path => '../../../capacitor-native-tabs'
+  pod 'LockvoidCapacitorNativeNavigation', :path => '../../../capacitor-native-navigation'
 end
 
 target 'App' do

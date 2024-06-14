@@ -168,3 +168,7 @@ out
 
 # Sentry Config File
 .sentryclirc
+packages/capacitor-native-navigation/ios/Plugin.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+packages/capacitor-native-navigation/ios/Plugin.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+packages/capacitor-native-navigation/ios/Plugin.xcworkspace/contents.xcworkspacedata
+packages/capacitor-native-navigation/ios/Plugin.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist

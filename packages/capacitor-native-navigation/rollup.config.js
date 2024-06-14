@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorNativeTabs',
+      name: 'capacitorNativeNavigation',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },

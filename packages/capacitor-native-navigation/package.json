@@ -1,5 +1,5 @@
 {
-  "name": "@lockvoid/capacitor-native-tabs",
+  "name": "@lockvoid/capacitor-native-navigation",
   "version": "0.0.1",
   "description": "Nope",
   "main": "dist/plugin.cjs.js",
@@ -11,16 +11,16 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "LockvoidCapacitorNativeTabs.podspec"
+    "LockvoidCapacitorNativeNavigation.podspec"
   ],
   "author": "LockVoid",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lockvoid/capacitor-native-tabs.git"
+    "url": "git+https://github.com/lockvoid/capacitor-native-navigation.git"
   },
   "bugs": {
-    "url": "https://github.com/lockvoid/capacitor-native-tabs/issues"
+    "url": "https://github.com/lockvoid/capacitor-native-navigation/issues"
   },
   "keywords": [
     "capacitor",
@@ -37,7 +37,7 @@
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
-    "docgen": "docgen --api NativeTabsPlugin --output-readme README.md --output-json dist/docs.json",
+    "docgen": "docgen --api NativeNavigationPlugin --output-readme README.md --output-json dist/docs.json",
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",

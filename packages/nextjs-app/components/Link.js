@@ -1,5 +1,5 @@
 import NextLink from 'next/link'
-import { NativeTabs } from "@lockvoid/capacitor-native-tabs";
+import { NativeNavigation } from "@lockvoid/capacitor-native-navigation";
 
 const Link = ({ href, children, ...restProps }) => {
 

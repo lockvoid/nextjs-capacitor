@@ -6,10 +6,10 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
-@CapacitorPlugin(name = "NativeTabs")
-public class NativeTabsPlugin extends Plugin {
+@CapacitorPlugin(name = "NativeNavigation")
+public class NativeNavigationPlugin extends Plugin {
 
-    private NativeTabs implementation = new NativeTabs();
+    private NativeNavigation implementation = new NativeNavigation();
 
     @PluginMethod
     public void echo(PluginCall call) {

@@ -17,6 +17,7 @@
     "concurrently": "^7.4.0"
   },
   "dependencies": {
+    "@lockvoid/capacitor-native-navigation": "^0.0.1",
     "capacitor_ferrumblood_ios": "^5.7.4"
   }
 }

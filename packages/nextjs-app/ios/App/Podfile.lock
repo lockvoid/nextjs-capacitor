@@ -2,27 +2,27 @@ PODS:
   - Capacitor (5.7.4):
     - CapacitorCordova
   - CapacitorCordova (5.7.4)
-  - LockvoidCapacitorNativeTabs (0.0.1):
+  - LockvoidCapacitorNativeNavigation (0.0.1):
     - Capacitor
 
 DEPENDENCIES:
   - Capacitor (from `../../../../node_modules/capacitor_ferrumblood_ios`)
   - CapacitorCordova (from `../../../../node_modules/capacitor_ferrumblood_ios`)
-  - LockvoidCapacitorNativeTabs (from `../../../capacitor-native-tabs`)
+  - LockvoidCapacitorNativeNavigation (from `../../../capacitor-native-navigation`)
 
 EXTERNAL SOURCES:
   Capacitor:
     :path: "../../../../node_modules/capacitor_ferrumblood_ios"
   CapacitorCordova:
     :path: "../../../../node_modules/capacitor_ferrumblood_ios"
-  LockvoidCapacitorNativeTabs:
-    :path: "../../../capacitor-native-tabs"
+  LockvoidCapacitorNativeNavigation:
+    :path: "../../../capacitor-native-navigation"
 
 SPEC CHECKSUMS:
   Capacitor: 4fe9adf012caceb4c71ffea2f1f4d005cdcbeea7
   CapacitorCordova: a6e87fccc0307dee7aec1560ec9398485f2b0ce7
-  LockvoidCapacitorNativeTabs: 1c9d24b06ca93ff676fd5af437c07955896d0679
+  LockvoidCapacitorNativeNavigation: 45de28fcc11acc305cedbd5a80568ece456b2acb
 
-PODFILE CHECKSUM: b489e58a034a1030aa510808f699522816955005
+PODFILE CHECKSUM: 406c084b1a9846d5bd9f85fc2bf0f02265d85a73
 
 COCOAPODS: 1.12.1

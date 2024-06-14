@@ -22,9 +22,9 @@ const Page1 = () => {
   //     //   }
   //     // ]
       
-  //     await window.Capacitor.Plugins.NativeTabs.prepareViewController({ });
+  //     await window.Capacitor.Plugins.NativeNavigation.prepareViewController({ });
   //     router.push('/tab2');
-  //     await window.Capacitor.Plugins.NativeTabs.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
+  //     await window.Capacitor.Plugins.NativeNavigation.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
   //   }
   // }
   const router = useRouter(); 
@@ -32,9 +32,9 @@ const Page1 = () => {
   const handleBack = async (event) => {
     if (window.Capacitor.isNativePlatform()) {
       event.preventDefault();
-      await window.Capacitor.Plugins.NativeTabs.prepareViewController({ });
+      await window.Capacitor.Plugins.NativeNavigation.prepareViewController({ });
       router.back();
-      await window.Capacitor.Plugins.NativeTabs.dismissViewController({});
+      await window.Capacitor.Plugins.NativeNavigation.dismissViewController({});
     }
   }
 

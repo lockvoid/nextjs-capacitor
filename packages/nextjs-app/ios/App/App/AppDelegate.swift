@@ -1,6 +1,6 @@
 import UIKit
 import Capacitor
-import LockvoidCapacitorNativeTabs
+import LockvoidCapacitorNativeNavigation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

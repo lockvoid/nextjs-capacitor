@@ -1,11 +1,11 @@
-# @lockvoid/capacitor-native-tabs
+# @lockvoid/capacitor-native-navigation
 
 Nope
 
 ## Install
 
 ```bash
-npm install @lockvoid/capacitor-native-tabs
+npm install @lockvoid/capacitor-native-navigation
 npx cap sync
 ```
 

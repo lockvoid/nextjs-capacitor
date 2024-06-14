@@ -4,8 +4,8 @@ import Capacitor
 import UIKit
 import Capacitor
 
-@objc(NativeTabsPlugin)
-public class NativeTabsPlugin: CAPPlugin {
+@objc(NativeNavigationPlugin)
+public class NativeNavigationPlugin: CAPPlugin {
     public override init() {
         super.init()
     }
