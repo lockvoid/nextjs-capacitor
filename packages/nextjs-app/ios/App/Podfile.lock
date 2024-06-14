@@ -6,15 +6,15 @@ PODS:
     - Capacitor
 
 DEPENDENCIES:
-  - Capacitor (from `../../../../node_modules/capacitor/ios`)
-  - CapacitorCordova (from `../../../../node_modules/capacitor/ios`)
+  - "Capacitor (from `../../../../node_modules/@capacitor/ios`)"
+  - "CapacitorCordova (from `../../../../node_modules/@capacitor/ios`)"
   - LockvoidCapacitorNativeNavigation (from `../../../capacitor-native-navigation`)
 
 EXTERNAL SOURCES:
   Capacitor:
-    :path: "../../../../node_modules/capacitor/ios"
+    :path: "../../../../node_modules/@capacitor/ios"
   CapacitorCordova:
-    :path: "../../../../node_modules/capacitor/ios"
+    :path: "../../../../node_modules/@capacitor/ios"
   LockvoidCapacitorNativeNavigation:
     :path: "../../../capacitor-native-navigation"
 
@@ -23,6 +23,6 @@ SPEC CHECKSUMS:
   CapacitorCordova: a6e87fccc0307dee7aec1560ec9398485f2b0ce7
   LockvoidCapacitorNativeNavigation: 45de28fcc11acc305cedbd5a80568ece456b2acb
 
-PODFILE CHECKSUM: e6f936c198192259b77b5cb249b9a15e2cad2a18
+PODFILE CHECKSUM: 49ab6db9aba1e26f806fadcda9c68f3c4f327b47
 
 COCOAPODS: 1.15.2

@@ -17,7 +17,7 @@
     "@capacitor/camera": "latest",
     "@capacitor/splash-screen": "latest",
     "@lockvoid/capacitor-native-navigation": "file:..",
-    "@capacitor/ios": "^5.0.0",
+    "@capacitor/ios": "https://gitpkg.now.sh/lockvoid/capacitor/ios?5.7.4-native_navigation",
     "@capacitor/android": "^5.0.0"
   },
   "devDependencies": {

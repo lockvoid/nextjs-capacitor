@@ -15,9 +15,5 @@
   ],
   "devDependencies": {
     "concurrently": "^7.4.0"
-  },
-  "dependencies": {
-    "capacitor": "github:lockvoid/capacitor#v5.7.4",
-    "@lockvoid/capacitor-native-navigation": "^0.0.1"
   }
 }
