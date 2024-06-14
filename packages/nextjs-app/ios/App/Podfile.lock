@@ -6,15 +6,15 @@ PODS:
     - Capacitor
 
 DEPENDENCIES:
-  - Capacitor (from `../../../../node_modules/capacitor_ferrumblood_ios`)
-  - CapacitorCordova (from `../../../../node_modules/capacitor_ferrumblood_ios`)
+  - Capacitor (from `../../../../node_modules/capacitor/ios`)
+  - CapacitorCordova (from `../../../../node_modules/capacitor/ios`)
   - LockvoidCapacitorNativeNavigation (from `../../../capacitor-native-navigation`)
 
 EXTERNAL SOURCES:
   Capacitor:
-    :path: "../../../../node_modules/capacitor_ferrumblood_ios"
+    :path: "../../../../node_modules/capacitor/ios"
   CapacitorCordova:
-    :path: "../../../../node_modules/capacitor_ferrumblood_ios"
+    :path: "../../../../node_modules/capacitor/ios"
   LockvoidCapacitorNativeNavigation:
     :path: "../../../capacitor-native-navigation"
 
@@ -23,6 +23,6 @@ SPEC CHECKSUMS:
   CapacitorCordova: a6e87fccc0307dee7aec1560ec9398485f2b0ce7
   LockvoidCapacitorNativeNavigation: 45de28fcc11acc305cedbd5a80568ece456b2acb
 
-PODFILE CHECKSUM: 406c084b1a9846d5bd9f85fc2bf0f02265d85a73
+PODFILE CHECKSUM: e6f936c198192259b77b5cb249b9a15e2cad2a18
 
 COCOAPODS: 1.12.1
