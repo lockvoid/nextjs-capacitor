@@ -16,9 +16,35 @@ public class NativeNavigationPlugin: CAPPlugin {
         }
     }
     
-    @objc func setMainViewController(_ call: CAPPluginCall) {
+    @objc func setRootViewControllers(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
-            if let vc = self.createViewController(call) {
+            guard let screen = call.getArray<JSValueContainer>("screens")?.first as? JSObject else {
+                call.resolve()
+                return
+            }
+                                                          
+            if let vc = self.createViewController(screen) {
+                if let windowScene = UIApplication.shared.connectedScenes
+                    .filter({ $0.activationState == .foregroundActive })
+                    .compactMap({ $0 as? UIWindowScene })
+                    .first {
+                    let window = windowScene.windows.first(where: { $0.isKeyWindow })
+                    (window?.rootViewController as? UINavigationController)?.setViewControllers([vc], animated: true, completion: {
+                        call.resolve()
+                    })
+                }
+            } else {
+                call.resolve()
+            }
+        }
+    }
+    
+    @objc func setViewControllers(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            guard let screen = call.getArray("screens")?.first as? JSObject else {
+                return
+            }
+            if let vc = self.createViewController(screen) {
                 self.bridge?.viewController?.navigationController?.setViewControllers([vc], animated: true, completion: {
                     call.resolve()
                 })
@@ -28,7 +54,7 @@ public class NativeNavigationPlugin: CAPPlugin {
     
     @objc func pushViewController(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
-            if let vc = self.createViewController(call) {
+            if let vc = self.createViewController(call.jsObjectRepresentation) {
                 self.bridge?.viewController?.navigationController?.pushViewController(vc, animated: true, completion: {
                     call.resolve()
                 })
@@ -38,7 +64,7 @@ public class NativeNavigationPlugin: CAPPlugin {
     
     @objc func presentViewController(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
-            if let vc = self.createViewController(call) {
+            if let vc = self.createViewController(call.jsObjectRepresentation) {
                 self.bridge?.viewController?.present(vc, animated: true, completion: {
                     call.resolve()
                 })
@@ -63,6 +89,7 @@ public class NativeNavigationPlugin: CAPPlugin {
             bridgeViewController.dismiss(animated: true) {[weak self, weak bridgeViewController] in
                 let lastBridgeViewController = bridgeViewController?.findLastPresentedBridgeViewController()
                 lastBridgeViewController?.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+                lastBridgeViewController?.hideScreenshot()
                 call.resolve()
             }
         }
@@ -75,17 +102,18 @@ public class NativeNavigationPlugin: CAPPlugin {
             bridgeViewController.navigationController?.popViewController(animated: true, completion: {[weak self, weak bridgeViewController] in
                 let lastBridgeViewController = bridgeViewController?.navigationController?.findLastBridgeViewController()
                 lastBridgeViewController?.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+                lastBridgeViewController?.hideScreenshot()
                 call.resolve()
             })
         }
     }
     
-    private func createViewController(_ call: CAPPluginCall) -> UIViewController? {
-        print("url11: \(call.getString("url") ?? "")")
+    private func createViewController(_ screen: JSObject) -> UIViewController? {
+        print("url11: \(screen["url"] ?? "")")
         var viewController: UIViewController?
-        if let tabs = call.getArray("tabs", [String: Any].self) {
+        if let tabs = screen["tabs"] as? [[String: Any]] {
             viewController = self.createTabBar(tabs: tabs)
-        } else if let urlString = call.getString("url"), let url = URL(string: urlString), url.scheme == "native" {
+        } else if let urlString = screen["url"] as? String, let url = URL(string: urlString), url.scheme == "native" {
             if let host = url.host {
                 let pathComponents = [host] + url.pathComponents.dropFirst()
                 viewController = self.createNativeViewController(path: pathComponents.joined(separator: "/"))
@@ -95,15 +123,18 @@ public class NativeNavigationPlugin: CAPPlugin {
             let vc = CustomCAPBridgeViewController(webview: webView, capacitorBridge: bridge)
 
             viewController = vc
-            vc.viewDidAppearHandler = {[weak self, weak vc] in
-                vc?.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
-            }
-            vc.viewWillDisappearHandler = {[weak vc] in
-                vc?.showScreenshot()
-            }
+//            vc.viewDidAppearHandler = {[weak self, weak vc] in
+//                vc?.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+//            }
+//            vc.viewWillDisappearHandler = {[weak vc] in
+//                vc?.showScreenshot()
+//            }
             vc.viewDidDisappearHandler = {[weak self] in
                 self?.notifyListeners("NAVIGATE_BACK", data: nil)
                 bridgeViewController.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    bridgeViewController.hideScreenshot()
+                }
             }
         }
         return viewController

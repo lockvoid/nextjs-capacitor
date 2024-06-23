@@ -90,7 +90,7 @@ const TabLayout = ({ children }) => {
         }
       ]
 
-      await window.Capacitor.Plugins.NativeNavigation.setMainViewController({ tabs });
+      await window.Capacitor.Plugins.NativeNavigation.setRootViewControllers({ screens: [ { tabs }, { url: 'native://redCustomVc'}] });
     }
   }
 
