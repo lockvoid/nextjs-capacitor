@@ -24,9 +24,9 @@ const TabLayout = ({ children }) => {
       //   }
       // ]
       
-      await window.Capacitor.Plugins.NativeNavigation.prepareViewController({ });
-      router.push('/tab2');
-      await window.Capacitor.Plugins.NativeNavigation.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
+      await window.Capacitor.Plugins.NativeNavigation.snapshotViewController({ });
+      await router.push('/tab2');
+      await window.Capacitor.Plugins.NativeNavigation.presentViewController({ });
     }
   }
 
@@ -57,9 +57,9 @@ const TabLayout = ({ children }) => {
     if (window.Capacitor.isNativePlatform()) {
       event.preventDefault();
 
-      await window.Capacitor.Plugins.NativeNavigation.prepareViewController({ });
-      router.push('/tab2');
-      await window.Capacitor.Plugins.NativeNavigation.pushViewController({ url: 'http://0.0.0.0:3000/tab2' });
+      await window.Capacitor.Plugins.NativeNavigation.snapshotViewController({ });
+      await router.push('/tab2');
+      await window.Capacitor.Plugins.NativeNavigation.pushViewController({ });
     }
   }
 
@@ -71,27 +71,54 @@ const TabLayout = ({ children }) => {
     }
   }
 
+  const handleTab5 = async (event) => {
+    if (window.Capacitor.isNativePlatform()) {
+      event.preventDefault();
+
+      const tabs = [
+        {
+          url: 'http://0.0.0.0:3000/tab2',
+          title: 'tab 1',
+        },
+        {
+          url: 'http://0.0.0.0:3000/tab2',
+          title: 'tab 2',
+        },
+        {
+          url: 'http://0.0.0.0:3000/tab2',
+          title: 'tab 3',
+        }
+      ]
+
+      await window.Capacitor.Plugins.NativeNavigation.setMainViewController({ tabs });
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 space-y-12"> 
       <div className="flex flex-col">
         {children}
       </div>
 
-      <div className="flex flex-row space-x-6">
+      <div className="flex flex-col space-y-2">
         <ActiveLink href="/tab1" className="bg-gray-300 rounded-lg p-2" activeClassName="bg-purple-600 text-white" onClick={handleTab1}>
-          Tab 1
+          Present Tab2
         </ActiveLink>
 
         <ActiveLink href="/tab2" className="bg-gray-300 rounded-lg p-2"  activeClassName="bg-purple-600 text-white" onClick={handleTab2}>
-          Tab 2
+          Push Tabbar
         </ActiveLink>
 
         <ActiveLink href="/tab2" className="bg-gray-300 rounded-lg p-2"  activeClassName="bg-purple-600 text-white" onClick={handleTab3}>
-          Tab 3
+          Push tab2
         </ActiveLink>
 
         <ActiveLink href="/tab2" className="bg-gray-300 rounded-lg p-2"  activeClassName="bg-purple-600 text-white" onClick={handleTab4}>
-          Tab 4
+          Push native
+        </ActiveLink>
+
+        <ActiveLink href="/tab2" className="bg-gray-300 rounded-lg p-2"  activeClassName="bg-purple-600 text-white" onClick={handleTab5}>
+          Set main TabBar
         </ActiveLink>
       </div>
     </div>

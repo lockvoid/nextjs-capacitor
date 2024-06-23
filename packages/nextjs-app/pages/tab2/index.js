@@ -22,7 +22,7 @@ const Page1 = () => {
   //     //   }
   //     // ]
       
-  //     await window.Capacitor.Plugins.NativeNavigation.prepareViewController({ });
+  //     await window.Capacitor.Plugins.NativeNavigation.snapshotViewController({ });
   //     router.push('/tab2');
   //     await window.Capacitor.Plugins.NativeNavigation.presentViewController({ url: 'http://0.0.0.0:3000/tab2' });
   //   }
@@ -32,9 +32,9 @@ const Page1 = () => {
   const handleBack = async (event) => {
     if (window.Capacitor.isNativePlatform()) {
       event.preventDefault();
-      await window.Capacitor.Plugins.NativeNavigation.prepareViewController({ });
+      await window.Capacitor.Plugins.NativeNavigation.snapshotViewController({ });
       router.back();
-      await window.Capacitor.Plugins.NativeNavigation.dismissViewController({});
+      await window.Capacitor.Plugins.NativeNavigation.dismissViewController({ });
     }
   }
 

@@ -1,5 +1,7 @@
 # Installation
 
+Run `./setup.sh` or follow the steps below to set up manually:
+
 1. Install dependencies:
 
 `npm install` or `yarn install`

@@ -16,6 +16,16 @@ public class NativeNavigationPlugin: CAPPlugin {
         }
     }
     
+    @objc func setMainViewController(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            if let vc = self.createViewController(call) {
+                self.bridge?.viewController?.navigationController?.setViewControllers([vc], animated: true, completion: {
+                    call.resolve()
+                })
+            }
+        }
+    }
+    
     @objc func pushViewController(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
             if let vc = self.createViewController(call) {
@@ -38,7 +48,7 @@ public class NativeNavigationPlugin: CAPPlugin {
         }
     }
     
-    @objc func prepareViewController(_ call: CAPPluginCall) {
+    @objc func snapshotViewController(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
             let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
             bridgeViewController.showScreenshot()
@@ -75,27 +85,25 @@ public class NativeNavigationPlugin: CAPPlugin {
         var viewController: UIViewController?
         if let tabs = call.getArray("tabs", [String: Any].self) {
             viewController = self.createTabBar(tabs: tabs)
-        } else if let urlString = call.getString("url"), let url = URL(string: urlString) {
-            if url.scheme == "native" {
-                if let host = url.host {
-                    let pathComponents = [host] + url.pathComponents.dropFirst()
-                    viewController = self.createNativeViewController(path: pathComponents.joined(separator: "/"))
-                }
-            } else {
-                let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
-                let vc = CustomCAPBridgeViewController(webview: webView, capacitorBridge: bridge)
+        } else if let urlString = call.getString("url"), let url = URL(string: urlString), url.scheme == "native" {
+            if let host = url.host {
+                let pathComponents = [host] + url.pathComponents.dropFirst()
+                viewController = self.createNativeViewController(path: pathComponents.joined(separator: "/"))
+            }
+        } else {
+            let bridgeViewController = self.bridge?.viewController as! CustomCAPBridgeViewController
+            let vc = CustomCAPBridgeViewController(webview: webView, capacitorBridge: bridge)
 
-                viewController = vc
-                vc.viewDidAppearHandler = {[weak self, weak vc] in
-                    vc?.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
-                }
-                vc.viewWillDisappearHandler = {[weak vc] in
-                    vc?.showScreenshot()
-                }
-                vc.viewDidDisappearHandler = {[weak self] in
-                    self?.notifyListeners("NAVIGATE_BACK", data: nil)
-                    bridgeViewController.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
-                }
+            viewController = vc
+            vc.viewDidAppearHandler = {[weak self, weak vc] in
+                vc?.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
+            }
+            vc.viewWillDisappearHandler = {[weak vc] in
+                vc?.showScreenshot()
+            }
+            vc.viewDidDisappearHandler = {[weak self] in
+                self?.notifyListeners("NAVIGATE_BACK", data: nil)
+                bridgeViewController.getBackWebView(webView: self?.webView, capacitorBridge: self?.bridge)
             }
         }
         return viewController
@@ -151,6 +159,13 @@ extension UINavigationController {
         CATransaction.begin()
         CATransaction.setCompletionBlock(completion)
         self.pushViewController(viewController, animated: animated)
+        CATransaction.commit()
+    }
+    
+    func setViewControllers(_ viewControllers: [UIViewController], animated: Bool, completion: @escaping () -> Void) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        self.setViewControllers(viewControllers, animated: animated)
         CATransaction.commit()
     }
     
